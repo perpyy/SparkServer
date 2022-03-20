@@ -9,3 +9,5 @@
 /spark-server/server/Game/Logs/Client/logs
 /spark-server/server/Game/Logs/Server/logs
 /spark-server/server/Test/RPC/Logs
+.idea
+.vs

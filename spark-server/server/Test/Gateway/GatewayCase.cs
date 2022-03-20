@@ -37,7 +37,13 @@ namespace SparkServer.Test.Gateway
             message.ConnectionId = data.connection;
 
             List<byte[]> buffList = new List<byte[]>();
-            buffList.Add(Convert.FromBase64String(data.buffer));
+            for (var i = 1; i < 1000; i++)
+            {
+                Console.WriteLine(Convert.FromBase64String(data.buffer).Length);
+                
+                buffList.Add(Convert.FromBase64String(data.buffer));
+            }
+
             message.Buffers = buffList;
 
             Framework.MessageQueue.NetworkPacketQueue.GetInstance().Push(message);

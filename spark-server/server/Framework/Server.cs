@@ -44,9 +44,13 @@ namespace SparkServer.Framework
 
         public void Run(string bootConf, BootServices customBoot)
         {
+            // 存配置文件路径
             SparkServerUtility.InitBootConf(bootConf);
+            // 读配置文件，比如IP，PORT等
             InitConfig(bootConf);
+            // 启动
             Boot(customBoot);
+            // Loop
             Loop();
         }
 
