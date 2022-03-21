@@ -89,6 +89,7 @@ namespace SparkServer.Network
                                 break;
                             }
                         }
+                        // 剩下的数据大于等于包头长，代表数据量已大于等于一个完事包，可以交给业务层了。
 
                         if (transferedBytes >= m_packetSize)
                         {
@@ -102,11 +103,12 @@ namespace SparkServer.Network
                             transferedBytes -= m_packetSize;
                             sourceIndex += m_packetSize;
 
+                            // 初始化，准备读下一个包
                             m_readHeader = 0;
                             m_readNum = 0;
                             m_packetSize = 0;
                         }
-                        else
+                        else // 数据未收完
                         {
                             ProcessUncomplete(ref inboundBytes, ref transferedBytes, ref sourceIndex);
                         }
