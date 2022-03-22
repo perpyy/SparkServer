@@ -57,6 +57,7 @@ namespace SparkServer.Test
         {
             BootServices boot = delegate ()
             {
+                SparkServerUtility.NewService("SparkServer.Test.Gateway.LoginService", "LoginService");
             };
             Server server = new Server();
             server.Run("../../Test/Gateway/Resource/Config/Startup.json", boot);

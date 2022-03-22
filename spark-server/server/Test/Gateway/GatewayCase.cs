@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SparkServer.Framework.Service;
 using SparkServer.Framework.Utility;
 
 namespace SparkServer.Test.Gateway
@@ -31,22 +32,26 @@ namespace SparkServer.Test.Gateway
             LoggerHelper.Info(m_serviceAddress, String.Format("GatewayCase.SocketData:{0},{1}", data.connection, data.buffer));
 
 
-            Framework.MessageQueue.NetworkPacket message = new Framework.MessageQueue.NetworkPacket();
+            Message msg = new Message();
+            msg.Source = GetId();
+            msg.Type = MessageType.ServiceRequest;
+            msg.Method = "Login";
+            msg.Destination = ServiceSlots.GetInstance().Name2Id("LoginService");
+            msg.Data = param;
+            ServiceSlots.GetInstance().Get(msg.Destination).Push(msg);
+            
+
+
+            /*Framework.MessageQueue.NetworkPacket message = new Framework.MessageQueue.NetworkPacket();
             message.Type = SparkServer.Framework.MessageQueue.SocketMessageType.DATA;
             message.TcpObjectId = this.GetTcpObjectId();
             message.ConnectionId = data.connection;
 
             List<byte[]> buffList = new List<byte[]>();
-            for (var i = 1; i < 1000; i++)
-            {
-                Console.WriteLine(Convert.FromBase64String(data.buffer).Length);
-                
-                buffList.Add(Convert.FromBase64String(data.buffer));
-            }
-
+            buffList.Add(Convert.FromBase64String(data.buffer));
             message.Buffers = buffList;
 
-            Framework.MessageQueue.NetworkPacketQueue.GetInstance().Push(message);
+            Framework.MessageQueue.NetworkPacketQueue.GetInstance().Push(message);*/
         }
     }
 }
