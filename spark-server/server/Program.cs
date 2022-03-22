@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SparkServer.Network;
 using SparkServer.Framework;
 using SparkServer.Framework.Utility;
+using SparkServer.Logic;
 using SparkServer.Test;
 
 namespace SparkServer
@@ -14,55 +15,13 @@ namespace SparkServer
     {
         static void Main(string[] args)
         {
-            string inputMode = args[0];
-            int mode = 0;
-            if (inputMode == "TestCases")
+            void BootServices()
             {
-                mode = 1;
+                // 这里启动各类服务
+                SparkServerUtility.NewService("SparkServer.Logic.Login.LoginService", "LoginService");
             }
-            else if (inputMode == "SparkServer")
-            {
-                mode = 2;
-            }
-            else
-            {
-                Console.WriteLine("Unknow input mode {0}", inputMode);
-                return;
-            }
-
-            switch(mode)
-            {
-                case 1:
-                    {
-                        string caseName = args[1];
-
-                        TestCases testCases = new TestCases();
-                        testCases.Run(caseName);
-                    } break;
-                case 2:
-                    {
-                        string bootService = args[1];
-                        string bootPath = args[2];
-                        string bootServiceName = "";
-
-                        if (args.Length >= 4)
-                        {
-                            bootServiceName = args[3];
-                        }
-
-                        BootServices startFunc = delegate ()
-                        {
-                            SparkServerUtility.NewService(bootService, bootServiceName);
-                        };
-
-                        Server battleServer = new Server();
-                        battleServer.Run(bootPath, startFunc);
-                    } break;
-                default:
-                    {
-                        Console.WriteLine("Mode:{0} not supported", mode);
-                    } break;
-            }
+            var server = new Server();
+            server.Run("../../Logic/config/start.json", BootServices);
         }
     }
 }

@@ -1,0 +1,9 @@
+﻿{
+  "Gateway": {
+    "Host": "127.0.0.1:8888",
+    "Class": "SparkServer.Logic.Router",
+    "Name": "RouterService"
+  },
+
+  "Logger": "../../Logs/Server/"
+}

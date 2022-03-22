@@ -18,6 +18,7 @@ namespace SparkServer.Framework.Service
         private const int DefaultServiceSize = 8;
 
         ConcurrentDictionary<string, int> m_service2name = new ConcurrentDictionary<string, int>();
+        ConcurrentDictionary<int, string> m_name2service = new ConcurrentDictionary<int, string>();
 
         // We should call this function first in main thread
         public static ServiceSlots GetInstance()
@@ -147,6 +148,7 @@ namespace SparkServer.Framework.Service
             if (s != null)
             {
                 m_service2name.TryAdd(name, serviceId);
+                m_name2service.TryAdd(serviceId, name);
             }
         }
 
@@ -155,6 +157,13 @@ namespace SparkServer.Framework.Service
             int serviceId = 0;
             m_service2name.TryGetValue(name, out serviceId);
             return serviceId;
+        }
+
+        public string Id2Name(int serviceId)
+        {
+            string name = "";
+            m_name2service.TryGetValue(serviceId, out name);
+            return name;
         }
     }
 }

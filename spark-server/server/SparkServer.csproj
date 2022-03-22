@@ -131,11 +131,12 @@
     <Compile Include="Game\Resource\RPCProtoCS\BattleTaskDispatcher.cs" />
     <Compile Include="Game\Process\Battle\BattleTaskConsumer.cs" />
     <Compile Include="Game\Process\Battle\BattleTaskDispatcher.cs" />
+    <Compile Include="Logic\Login\LoginService.cs" />
+    <Compile Include="Logic\Router.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test\Gateway\GatewayCase.cs" />
     <Compile Include="Test\Gateway\GatewayClientCase.cs" />
-    <Compile Include="Test\Gateway\LoginService.cs" />
     <Compile Include="Test\RecvSkynetRequest\Resource\RPCProtoCS\SkynetMessageReceiver.cs" />
     <Compile Include="Test\RecvSkynetRequest\SkynetMessageReceiver.cs" />
     <Compile Include="Test\RPC\Resource\RPCProtoCS\TestServer.cs" />
@@ -151,6 +152,7 @@
     <Content Include="Framework\Tools\sproto2cs\lib\lua.dll" />
     <Content Include="Framework\Tools\sproto2cs\lib\lua.exe" />
     <Content Include="Framework\Tools\sproto2cs\lib\msvcr120d.dll" />
+    <Content Include="Logic\config\start.json" />
     <Content Include="Test\TestDependency\3rd\src\cryptex\sha256.c" />
     <Content Include="Test\TestDependency\3rd\src\service-log\service_logger.c" />
     <Content Include="Test\TestDependency\skynet\.gitignore" />
@@ -554,6 +556,7 @@
     <Folder Include="Game\Startconf\Daily\" />
     <Folder Include="Game\Startconf\Develop\" />
     <Folder Include="Game\Startconf\Publish\" />
+    <Folder Include="Logs" />
     <Folder Include="Test\Gateway\Logs\" />
     <Folder Include="Test\RPC\LinuxShell\" />
     <Folder Include="Test\RPC\Logs\Client\" />

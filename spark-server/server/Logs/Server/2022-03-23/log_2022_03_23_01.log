@@ -1,0 +1,23 @@
+2022-03-23 01:01:12.4993 Info [00000001] [LoggerService] LoggerService launched
+2022-03-23 01:01:12.5193 Info [00000002] [RouterService] RouterService launched
+2022-03-23 01:01:12.5193 Info [00000003] [LoginService] LoginService launched
+2022-03-23 01:01:12.5193 Info [00000000] [          ] Start SparkServer Server...
+2022-03-23 01:01:27.5894 Info [00000001] [LoggerService] LoggerService launched
+2022-03-23 01:01:27.6090 Info [00000002] [RouterService] RouterService launched
+2022-03-23 01:01:27.6090 Info [00000003] [LoginService] LoginService launched
+2022-03-23 01:01:27.6090 Info [00000000] [          ] Start SparkServer Server...
+2022-03-23 01:01:43.8127 Info [00000001] [       LoggerService] LoggerService launched
+2022-03-23 01:01:43.8333 Info [00000002] [       RouterService] RouterService launched
+2022-03-23 01:01:43.8333 Info [00000003] [        LoginService] LoginService launched
+2022-03-23 01:01:43.8333 Info [00000000] [                    ] Start SparkServer Server...
+2022-03-23 01:01:51.4589 Info [00000001] [LoggerService       ] LoggerService launched
+2022-03-23 01:01:51.4800 Info [00000002] [RouterService       ] RouterService launched
+2022-03-23 01:01:51.4800 Info [00000003] [LoginService        ] LoginService launched
+2022-03-23 01:01:51.4800 Info [00000000] [                    ] Start SparkServer Server...
+2022-03-23 01:08:02.4890 Info [00000001] [LoggerService       ] LoggerService launched
+2022-03-23 01:08:02.5086 Info [00000002] [RouterService       ] RouterService launched
+2022-03-23 01:08:02.5086 Info [00000003] [LoginService        ] LoginService launched
+2022-03-23 01:08:02.5086 Info [00000000] [SparkServer         ] Start SparkServer Server...
+2022-03-23 01:08:22.1708 Info [00000002] [RouterService       ] GatewayCase.SocketAccept
+2022-03-23 01:08:39.4421 Info [00000002] [RouterService       ] GatewayCase.SocketError
+2022-03-23 01:08:39.4421 Info [00000002] [RouterService       ] GatewayCase.SocketError

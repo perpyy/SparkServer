@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using SparkServer.Framework.Service;
 using SparkServer.Framework.Utility;
 
-namespace SparkServer.Test.Gateway
+namespace SparkServer.Logic
 {
-    class GatewayCase : SparkServer.Framework.Service.Gateway.Gateway
+    class Router : SparkServer.Framework.Service.Gateway.Gateway
     {
         protected override void Init()
         {

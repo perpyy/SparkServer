@@ -12,7 +12,7 @@ namespace SparkServer.Framework.Utility
     {
         public static void Info(int source, string msg)
         {
-            string logger = "logger";
+            string logger = "LoggerService";
             LoggerService loggerService = (LoggerService)ServiceSlots.GetInstance().Get(logger);
 
             Message message = new Message();

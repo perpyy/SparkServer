@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using SparkServer.Framework.Utility;
 
-namespace SparkServer.Test.Gateway
+namespace SparkServer.Logic.Login
 {
     class LoginService : Framework.Service.ServiceContext
     {
@@ -21,7 +21,7 @@ namespace SparkServer.Test.Gateway
             Framework.MessageQueue.NetworkPacket message = new Framework.MessageQueue.NetworkPacket();
             
             message.Type = SparkServer.Framework.MessageQueue.SocketMessageType.DATA;
-            message.TcpObjectId = this.GetTcpObjectId();
+            message.TcpObjectId = session;
             message.ConnectionId = data.connection;
 
             List<byte[]> buffList = new List<byte[]>();
