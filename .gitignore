@@ -11,3 +11,4 @@
 /spark-server/server/Test/RPC/Logs
 .idea
 .vs
+/spark-server/server/Logs

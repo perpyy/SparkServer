@@ -19,7 +19,8 @@ namespace SparkServer.Logic
 
         protected override void SocketAccept(int source, int session, string method, byte[] param)
         {
-            LoggerHelper.Info(m_serviceAddress, "GatewayCase.SocketAccept");
+            SocketAccept accept = new SocketAccept(param);
+            LoggerHelper.Info(m_serviceAddress, $"SocketAccept {accept.ip}:{accept.port}");
         }
 
         protected override void SocketError(int source, int session, string method, byte[] param)
@@ -28,10 +29,10 @@ namespace SparkServer.Logic
             switch (sprotoSocketError.errorCode)
             {
                 case (int)SessionSocketError.Disconnected:
-                    LoggerHelper.Info(m_serviceAddress, $"{sprotoSocketError.remoteEndPoint} disconnect");
+                    LoggerHelper.Info(m_serviceAddress, $"SocketDisconnected {sprotoSocketError.remoteEndPoint}");
                     break;
                 case (int)ConnectionStatus.Disconnecting:
-                    LoggerHelper.Info(m_serviceAddress, $"{sprotoSocketError.remoteEndPoint} disconnecting");
+                    LoggerHelper.Info(m_serviceAddress, $"SocketDisconnecting {sprotoSocketError.remoteEndPoint}");
                     break;
                 default:
                     break;
