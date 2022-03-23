@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NetSprotoType;
 using SparkServer.Framework.Service;
 using SparkServer.Framework.Utility;
+using SparkServer.Network;
 
 namespace SparkServer.Logic
 {
@@ -22,7 +24,18 @@ namespace SparkServer.Logic
 
         protected override void SocketError(int source, int session, string method, byte[] param)
         {
-            LoggerHelper.Info(m_serviceAddress, "GatewayCase.SocketError");
+            SocketError sprotoSocketError = new SocketError(param);
+            switch (sprotoSocketError.errorCode)
+            {
+                case (int)SessionSocketError.Disconnected:
+                    LoggerHelper.Info(m_serviceAddress, $"{sprotoSocketError.remoteEndPoint} disconnect");
+                    break;
+                case (int)ConnectionStatus.Disconnecting:
+                    LoggerHelper.Info(m_serviceAddress, $"{sprotoSocketError.remoteEndPoint} disconnecting");
+                    break;
+                default:
+                    break;
+            }
         }
 
         protected override void SocketData(int source, int session, string method, byte[] param)

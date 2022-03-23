@@ -281,6 +281,7 @@ namespace SparkServer.Network
             {
                 if (args.BytesTransferred == 0)
                 {
+                    // 关闭时传空字符？
                     m_onSessionError(m_opaque, m_sessionId, (int)SocketError.Disconnecting, m_errorText);
                 }
                 else
