@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NetSprotoType;
 using SparkServer.Framework.Service;
 using SparkServer.Framework.Utility;
+using SparkServer.Logic.Login;
 using SparkServer.Network;
 
 namespace SparkServer.Logic
@@ -20,7 +21,7 @@ namespace SparkServer.Logic
         protected override void SocketAccept(int source, int session, string method, byte[] param)
         {
             SocketAccept accept = new SocketAccept(param);
-            LoggerHelper.Info(m_serviceAddress, $"SocketAccept {accept.ip}:{accept.port}");
+            LoggerHelper.Info(m_serviceAddress, $"SocketAccept {accept.ip}:{accept.port}, Connection Id: {accept.connection}");
         }
 
         protected override void SocketError(int source, int session, string method, byte[] param)
@@ -29,10 +30,10 @@ namespace SparkServer.Logic
             switch (sprotoSocketError.errorCode)
             {
                 case (int)SessionSocketError.Disconnected:
-                    LoggerHelper.Info(m_serviceAddress, $"SocketDisconnected {sprotoSocketError.remoteEndPoint}");
+                    LoggerHelper.Info(m_serviceAddress, $"SocketDisconnected {sprotoSocketError.remoteEndPoint}, Connection Id: {sprotoSocketError.connection}");
                     break;
                 case (int)ConnectionStatus.Disconnecting:
-                    LoggerHelper.Info(m_serviceAddress, $"SocketDisconnecting {sprotoSocketError.remoteEndPoint}");
+                    LoggerHelper.Info(m_serviceAddress, $"SocketDisconnecting {sprotoSocketError.remoteEndPoint}, Connection Id: {sprotoSocketError.connection}");
                     break;
                 default:
                     break;
@@ -43,16 +44,15 @@ namespace SparkServer.Logic
         {
             NetSprotoType.SocketData data = new NetSprotoType.SocketData(param);
 
-            LoggerHelper.Info(m_serviceAddress, String.Format("GatewayCase.SocketData:{0},{1}", data.connection, data.buffer));
-
-
+            LoggerHelper.Info(m_serviceAddress, $"Receive Data From Connection Id: {data.connection}");
+            
             Message msg = new Message();
             msg.Source = GetId();
             msg.Type = MessageType.ServiceRequest;
-            msg.Method = "Login";
-            msg.Destination = ServiceSlots.GetInstance().Name2Id("LoginService");
+            msg.Method = nameof(LoginService.Login);
+            msg.Destination = ServiceSlots.GetInstance().Name2Id(nameof(LoginService));
             msg.Data = param;
-            msg.RPCSession = this.GetTcpObjectId();
+            msg.RPCSession = GetTcpObjectId();
             ServiceSlots.GetInstance().Get(msg.Destination).Push(msg);
             
 

@@ -12,9 +12,9 @@ namespace SparkServer.Logic.Login
             RegisterServiceMethods("Login", Login);
         }
 
-        private void Login(int source, int session, string method, byte[] param)
+        public void Login(int source, int session, string method, byte[] param)
         {
-            string text = string.Format("Service:{0} has been call method {1}", m_serviceAddress, method);
+            string text = $"Call method: {method}";
             LoggerHelper.Info(m_serviceAddress, text);
             NetSprotoType.SocketData data = new NetSprotoType.SocketData(param);
             
