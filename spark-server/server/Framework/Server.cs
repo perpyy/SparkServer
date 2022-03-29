@@ -16,6 +16,7 @@ using Newtonsoft.Json.Linq;
 using SparkServer.Framework.Timer;
 using SparkServer.Framework.Service.Gateway;
 using System.IO;
+using SparkServer.MySQL;
 
 namespace SparkServer.Framework
 {
@@ -50,6 +51,8 @@ namespace SparkServer.Framework
             InitConfig(bootConf);
             // 启动
             Boot(customBoot);
+            // MYSQL
+            MySQLHelper.GetInstance();
             // Loop
             Loop();
         }

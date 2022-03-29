@@ -44,8 +44,13 @@ namespace SparkServer.Logic
         {
             NetSprotoType.SocketData data = new NetSprotoType.SocketData(param);
 
-            LoggerHelper.Info(m_serviceAddress, $"Receive Data From Connection Id: {data.connection}");
+            LoggerHelper.Info(m_serviceAddress, $"Receive data from connection id: {data.connection}");
             
+            // 提取消息类型
+            
+            // 分发到各个服务
+
+
             Message msg = new Message();
             msg.Source = GetId();
             msg.Type = MessageType.ServiceRequest;
