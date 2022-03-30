@@ -20,10 +20,11 @@ namespace SparkServer
                 SparkServerUtility.NewService("SparkServer.Logic.Login.LoginService", "LoginService");
                 SparkServerUtility.NewService("SparkServer.Logic.RPC.RServer", "RServer");
                 SparkServerUtility.NewService("SparkServer.Logic.RPC.RClient", "RClient");
+                SparkServerUtility.NewService("SparkServer.Logic.Loop.LoopService", "LoopService");
             }
             
             var server = new Server();
-            server.Run("../../Logic/config/start.json", BootServices);
+            server.Run("Config/start.json", BootServices);
         }
     }
 }

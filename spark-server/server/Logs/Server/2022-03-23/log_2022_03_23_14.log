@@ -1,7 +1,0 @@
-2022-03-23 14:53:39.2347 Info [00000001] [LoggerService       ] LoggerService launched
-2022-03-23 14:53:39.2627 Info [00000002] [RouterService       ] RouterService launched
-2022-03-23 14:53:39.2627 Info [00000003] [LoginService        ] LoginService launched
-2022-03-23 14:53:39.2627 Info [00000000] [SparkServer         ] Start SparkServer Server...
-2022-03-23 14:53:42.2441 Info [00000002] [RouterService       ] GatewayCase.SocketAccept
-2022-03-23 14:54:03.2968 Info [00000002] [RouterService       ] GatewayCase.SocketAccept
-2022-03-23 14:54:06.5795 Info [00000002] [RouterService       ] 127.0.0.1:54317 disconnect

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NetSprotoType;
 using SparkServer.Framework.Utility;
 
 namespace SparkServer.Logic.Login
@@ -16,12 +17,12 @@ namespace SparkServer.Logic.Login
         {
             string text = $"Call method: {method}";
             LoggerHelper.Info(m_serviceAddress, text);
-            NetSprotoType.SocketData data = new NetSprotoType.SocketData(param);
+            DispatchData data = new DispatchData(param);
             
             Framework.MessageQueue.NetworkPacket message = new Framework.MessageQueue.NetworkPacket();
             
             message.Type = SparkServer.Framework.MessageQueue.SocketMessageType.DATA;
-            message.TcpObjectId = session;
+            message.TcpObjectId = (int)data.tcpObjectId;
             message.ConnectionId = data.connection;
             
 

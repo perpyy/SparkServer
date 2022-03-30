@@ -11,14 +11,7 @@ namespace SparkServer.Framework.Utility
     {
         public static string LoadFromFile(string path)
         {
-            if (File.Exists(path))
-            {
-                return File.ReadAllText(path);
-            }
-            else
-            {
-                return "";
-            }
+            return File.Exists(path) ? File.ReadAllText(path) : "";
         }
     }
 }

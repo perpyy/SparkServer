@@ -172,7 +172,7 @@ namespace SparkServer.Framework
 
             customBoot();
 
-            LoggerHelper.Info(0, "Start SparkServer Server...");
+            LoggerHelper.Info(0, "Start SparkServer...");
 
             for (int i = 0; i < m_workerNum; i++)
             {
@@ -263,7 +263,7 @@ namespace SparkServer.Framework
         {
             SocketData data = new SocketData();
             data.connection = sessionId;
-            data.buffer = Convert.ToBase64String(buffer);
+            data.buffer = Convert.ToBase64String(buffer); // 在这里做的转Base64
             
             Message msg = new Message();
             msg.Source = 0;

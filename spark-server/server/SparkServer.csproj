@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,7 +25,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -151,9 +151,12 @@
     <Compile Include="Framework\Network\TCPServer.cs" />
     <Compile Include="Framework\Network\TCPSynchronizeContext.cs" />
     <Compile Include="Framework\Utility\SparkServer.cs" />
-    <Compile Include="Logic\Login\Entity\Player.cs" />
+    <Compile Include="Logic\Entity\MsgType\Ct.cs" />
+    <Compile Include="Logic\Entity\MsgType\Mt.cs" />
+    <Compile Include="Logic\Entity\MsgType\Op.cs" />
+    <Compile Include="Logic\Entity\SwitchMsgBase.cs" />
     <Compile Include="Logic\Login\LoginService.cs" />
-    <Compile Include="Logic\Loop\Loop.cs" />
+    <Compile Include="Logic\Loop\LoopService.cs" />
     <Compile Include="Logic\Router.cs" />
     <Compile Include="Logic\RPC\RClient.cs" />
     <Compile Include="Logic\RPC\RServer.cs" />
@@ -161,12 +164,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Config\start.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Framework\Tools\sproto2cs\lib\lfs.dll" />
     <Content Include="Framework\Tools\sproto2cs\lib\lpeg.dll" />
     <Content Include="Framework\Tools\sproto2cs\lib\lua.dll" />
     <Content Include="Framework\Tools\sproto2cs\lib\lua.exe" />
     <Content Include="Framework\Tools\sproto2cs\lib\msvcr120d.dll" />
-    <Content Include="Logic\config\start.json" />
     <Content Include="RPC.md" />
     <None Include="App.config" />
     <Content Include="Framework\3rd\sproto\.gitmodules" />
@@ -205,13 +210,13 @@
     <None Include="Framework\Tools\sproto2cs\sprotodump\util.lua" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Data\" />
     <Folder Include="Framework\3rd\sproto\tools\" />
-    <Folder Include="Logs\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 和 x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

@@ -5,5 +5,5 @@
     "Name": "RouterService"
   },
 
-  "Logger": "../../Logs/Server/"
+  "Logger": "Logs/Server/"
 }

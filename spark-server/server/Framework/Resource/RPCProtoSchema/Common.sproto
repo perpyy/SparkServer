@@ -16,6 +16,12 @@
     buffer     1 : string
 }
 
+.DispatchData {
+    connection 0 : integer
+    buffer     1 : string
+    tcpObjectId 2: integer
+}
+
 
 .RPCParam {
 	method 0 : string

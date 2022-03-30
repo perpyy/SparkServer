@@ -7,6 +7,7 @@ using NetSprotoType;
 using SparkServer.Framework.Service;
 using SparkServer.Framework.Utility;
 using SparkServer.Logic.Login;
+using SparkServer.Logic.Loop;
 using SparkServer.Network;
 
 namespace SparkServer.Logic
@@ -43,20 +44,25 @@ namespace SparkServer.Logic
         protected override void SocketData(int source, int session, string method, byte[] param)
         {
             NetSprotoType.SocketData data = new NetSprotoType.SocketData(param);
+            var dispatchData = new DispatchData(param)
+            {
+                tcpObjectId = GetTcpObjectId(),
+                connection = data.connection,
+                buffer = data.buffer
+            };
 
             LoggerHelper.Info(m_serviceAddress, $"Receive data from connection id: {data.connection}");
             
             // 提取消息类型
-            // GetTcpObjectId() 在这个service里面即GetId();
             // 分发到各个服务
-
+            // 暂时全部转到Loop去
             Message msg = new Message();
             msg.Source = GetId();
             msg.Type = MessageType.ServiceRequest;
-            msg.Method = nameof(LoginService.Login);
-            msg.Destination = ServiceSlots.GetInstance().Name2Id(nameof(LoginService));
-            msg.Data = param;
-            msg.RPCSession = GetTcpObjectId();
+            msg.Method = nameof(LoopService.Dispatch);
+            msg.Destination = ServiceSlots.GetInstance().Name2Id(nameof(LoopService));
+            msg.Data = dispatchData.encode();
+            msg.RPCSession = 0;
             ServiceSlots.GetInstance().Get(msg.Destination).Push(msg);
             
 
