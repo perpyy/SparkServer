@@ -1,22 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using SparkServer.Network;
 using SparkServer.Framework.MessageQueue;
 using SparkServer.Framework.Service;
-using SparkServer.Framework.Service.Logger;
 using SparkServer.Framework.Utility;
-using SparkServer.Framework.Service.ClusterServer;
-using SparkServer.Framework.Service.ClusterClient;
 using NetSprotoType;
 using Newtonsoft.Json.Linq;
 using SparkServer.Framework.Timer;
-using SparkServer.Framework.Service.Gateway;
 using System.IO;
-using SparkServer.MySQL;
 
 namespace SparkServer.Framework
 {
@@ -51,8 +42,6 @@ namespace SparkServer.Framework
             InitConfig(bootConf);
             // 启动
             Boot(customBoot);
-            // MYSQL
-            MySQLHelper.GetInstance();
             // Loop
             Loop();
         }
@@ -275,7 +264,7 @@ namespace SparkServer.Framework
             SocketData data = new SocketData();
             data.connection = sessionId;
             data.buffer = Convert.ToBase64String(buffer);
-
+            
             Message msg = new Message();
             msg.Source = 0;
             msg.Destination = opaque;

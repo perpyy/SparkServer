@@ -1,5 +1,0 @@
-{
-    "ClusterConfig" : "../../Test/RecvSkynetRequest/Resource/Config/ClusterName.json",
-    "ClusterName": "testserver",
-    "ThreadNum" :  4
-}

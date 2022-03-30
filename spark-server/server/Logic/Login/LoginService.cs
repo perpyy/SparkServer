@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Dapper;
-using NLog.LayoutRenderers;
 using SparkServer.Framework.Utility;
-using SparkServer.Logic.Login.Entity;
-using SparkServer.MySQL;
 
 namespace SparkServer.Logic.Login
 {
@@ -27,12 +23,7 @@ namespace SparkServer.Logic.Login
             message.Type = SparkServer.Framework.MessageQueue.SocketMessageType.DATA;
             message.TcpObjectId = session;
             message.ConnectionId = data.connection;
-
-            var result = MySQLHelper.GetInstance().Conn.Query<Player>("select * from players");
-            foreach (var r in result)
-            {
-                Console.WriteLine($"{r.Id}, {r.UserName}, {r.PassWord}, {r.RegisterTime}, {r.Lock}");
-            }
+            
 
             List<byte[]> buffList = new List<byte[]>();
             buffList.Add(Convert.FromBase64String(data.buffer));

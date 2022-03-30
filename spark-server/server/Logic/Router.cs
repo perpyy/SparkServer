@@ -47,9 +47,8 @@ namespace SparkServer.Logic
             LoggerHelper.Info(m_serviceAddress, $"Receive data from connection id: {data.connection}");
             
             // 提取消息类型
-            
+            // GetTcpObjectId() 在这个service里面即GetId();
             // 分发到各个服务
-
 
             Message msg = new Message();
             msg.Source = GetId();
