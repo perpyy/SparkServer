@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NetSprotoType;
 using SparkServer.Framework.Service;
 using SparkServer.Framework.Utility;
-using SparkServer.Logic.Login;
 using SparkServer.Logic.Loop;
 using SparkServer.Network;
 
@@ -22,7 +17,7 @@ namespace SparkServer.Logic
         protected override void SocketAccept(int source, int session, string method, byte[] param)
         {
             SocketAccept accept = new SocketAccept(param);
-            LoggerHelper.Info(m_serviceAddress, $"SocketAccept {accept.ip}:{accept.port}, Connection Id: {accept.connection}");
+            LoggerHelper.Debug(m_serviceAddress, $"SocketAccept {accept.ip}:{accept.port}, Connection Id: {accept.connection}");
         }
 
         protected override void SocketError(int source, int session, string method, byte[] param)
@@ -31,10 +26,10 @@ namespace SparkServer.Logic
             switch (sprotoSocketError.errorCode)
             {
                 case (int)SessionSocketError.Disconnected:
-                    LoggerHelper.Info(m_serviceAddress, $"SocketDisconnected {sprotoSocketError.remoteEndPoint}, Connection Id: {sprotoSocketError.connection}");
+                    LoggerHelper.Debug(m_serviceAddress, $"SocketDisconnected {sprotoSocketError.remoteEndPoint}, Connection Id: {sprotoSocketError.connection}");
                     break;
                 case (int)ConnectionStatus.Disconnecting:
-                    LoggerHelper.Info(m_serviceAddress, $"SocketDisconnecting {sprotoSocketError.remoteEndPoint}, Connection Id: {sprotoSocketError.connection}");
+                    LoggerHelper.Debug(m_serviceAddress, $"SocketDisconnecting {sprotoSocketError.remoteEndPoint}, Connection Id: {sprotoSocketError.connection}");
                     break;
                 default:
                     break;
@@ -50,8 +45,7 @@ namespace SparkServer.Logic
                 connection = data.connection,
                 buffer = data.buffer
             };
-
-            LoggerHelper.Info(m_serviceAddress, $"Receive data from connection id: {data.connection}");
+            LoggerHelper.Debug(m_serviceAddress, $"Receive data from connection id: {data.connection}");
             
             // 提取消息类型
             // 分发到各个服务

@@ -16,12 +16,34 @@ namespace SparkServer.Framework.Utility
             LoggerService loggerService = (LoggerService)ServiceSlots.GetInstance().Get(logger);
 
             Message message = new Message();
-            message.Method = "OnLog";
+            message.Method = "Info";
             message.Data = Encoding.ASCII.GetBytes(msg);
             message.Destination = loggerService.GetId();
             message.Source = source;
             message.Type = MessageType.ServiceRequest;
             loggerService.Push(message);
+        }
+        
+        public static void Debug(int source, string msg)
+        {
+            string logger = "LoggerService";
+            LoggerService loggerService = (LoggerService)ServiceSlots.GetInstance().Get(logger);
+
+            Message message = new Message();
+            message.Method = "Debug";
+            message.Data = Encoding.ASCII.GetBytes(msg);
+            message.Destination = loggerService.GetId();
+            message.Source = source;
+            message.Type = MessageType.ServiceRequest;
+            loggerService.Push(message);
+        }
+
+        public static int AddService(int id, string service)
+        {
+            string logger = "LoggerService";
+            LoggerService loggerService = (LoggerService)ServiceSlots.GetInstance().Get(logger);
+            loggerService.AddCService(id, service);
+            return id;
         }
     }
 }

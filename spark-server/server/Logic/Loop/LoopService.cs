@@ -5,6 +5,10 @@ using NetSprotoType;
 using Newtonsoft.Json;
 using SparkServer.Framework.Service;
 using SparkServer.Framework.Utility;
+using SparkServer.Logic.Entity;
+using SparkServer.Logic.Entity.Req;
+using SparkServer.Logic.Entity.Req.MsgType;
+using SparkServer.Logic.Handler.Player.Auth;
 
 namespace SparkServer.Logic.Loop
 {
@@ -22,18 +26,22 @@ namespace SparkServer.Logic.Loop
         // 分发
         public void Dispatch(int source, int session, string method, byte[] param)
         {
-            string text = $"Call method: {method}";
-            LoggerHelper.Info(m_serviceAddress, text);
             DispatchData data = new DispatchData(param);
             
-            // 反序列为JSON
+            // 反序列为JSON,只反操作码部分，用于识别如何分发
+            var m = Encoding.UTF8.GetString(Convert.FromBase64String(data.buffer));
+            // 先提操作码
+            var op = JsonConvert.DeserializeObject<ReqMsgBase>(m);
 
-            var msg = JsonConvert.DeserializeObject(data.buffer);
-            
-            
-            
-            LoggerHelper.Info(m_serviceAddress, data.buffer);
-            Send2Client(data.tcpObjectId, data.connection, data.buffer);
+            switch (op.Mt)
+            {
+                case ReqMt.Player_Auth:
+                    AuthService.Handler(this, op.Op, m);
+                    break;
+                default:
+                    break;
+            }
+            /*Send2Client(data.tcpObjectId, data.connection, data.buffer);*/
         }
 
         private void Send2Client(long tcpObjectId, long connection, List<byte[]> msg)

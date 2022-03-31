@@ -15,6 +15,15 @@ namespace SparkServer.Framework.Service.Logger
         private NLog.Logger m_logger; // = LogManager.GetCurrentClassLogger();
         private Dictionary<int, string> _serviceId2Name;
 
+        public void AddCService(int id, string service)
+        {
+            if (id < 10000)
+            {
+                throw new Exception("Custom service(not SparkService) id can not < 10000");
+            }
+            _serviceId2Name.Add(id, service);
+        }
+
         protected override void Init(byte[] param)
         {
             base.Init();
@@ -22,7 +31,8 @@ namespace SparkServer.Framework.Service.Logger
             Logger_Init loggerInit = new Logger_Init(param);
             Startup(loggerInit.logger_path);
 
-            RegisterServiceMethods("OnLog", OnLog);
+            RegisterServiceMethods(nameof(Info), Info);
+            RegisterServiceMethods(nameof(Debug), Debug);
             _serviceId2Name = new Dictionary<int, string> {{0, "SparkServer"}};
 
         }
@@ -31,7 +41,7 @@ namespace SparkServer.Framework.Service.Logger
         {
             // 配置参见 https://github.com/nlog/nlog/wiki/Configuration-API
 
-            var config = new LoggingConfiguration();
+            /*var config = new LoggingConfiguration();
 
             var logRoot = loggerPath;
 
@@ -54,17 +64,17 @@ namespace SparkServer.Framework.Service.Logger
             config.AddRuleForAllLevels(fileTarget);
             config.AddRuleForAllLevels(consoleTarget);
 
-            LogManager.Configuration = config;
+            LogManager.Configuration = config;*/
 
             m_logger = LogManager.GetCurrentClassLogger();
         }
 
-        private void OnLog(int source, int session, string method, byte[] param)
+        private void Info(int source, int session, string method, byte[] param)
         {
             var service = "";
             if (_serviceId2Name.ContainsKey(source))
             {
-                service = _serviceId2Name[source];
+                _serviceId2Name.TryGetValue(source, out service);
             }
             else
             {
@@ -73,6 +83,22 @@ namespace SparkServer.Framework.Service.Logger
             }
             string outStr = string.Format("[{0:X8}] [{1, -20}] {2}", source, service, Encoding.ASCII.GetString(param));
             m_logger.Info(outStr);
+        }
+        
+        private void Debug(int source, int session, string method, byte[] param)
+        {
+            var service = "";
+            if (_serviceId2Name.ContainsKey(source))
+            {
+                _serviceId2Name.TryGetValue(source, out service);
+            }
+            else
+            {
+                service = ServiceSlots.GetInstance().Id2Name(source);
+                _serviceId2Name.Add(source, service);
+            }
+            string outStr = string.Format("[{0:X8}] [{1, -20}] {2}", source, service, Encoding.ASCII.GetString(param));
+            m_logger.Debug(outStr);
         }
     }
 }
