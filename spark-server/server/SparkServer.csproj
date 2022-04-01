@@ -152,6 +152,8 @@
     <Compile Include="Framework\Network\TCPSynchronizeContext.cs" />
     <Compile Include="Framework\Utility\SparkServer.cs" />
     <Compile Include="Logic\CustomId.cs" />
+    <Compile Include="Logic\Db\DbService.cs" />
+    <Compile Include="Logic\Entity\Player\EtPlayer.cs" />
     <Compile Include="Logic\Entity\Req\MsgType\Ct.cs" />
     <Compile Include="Logic\Entity\Req\MsgType\Mt.cs" />
     <Compile Include="Logic\Entity\Req\MsgType\Op.cs" />

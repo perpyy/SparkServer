@@ -5,5 +5,6 @@
     "Name": "RouterService"
   },
 
-  "Logger": "Logs/Server/"
+  "Logger": "Logs/Server/",
+  "Db": "D:\\csharpapps\\SparkServer\\spark-server\\server\\Data"
 }

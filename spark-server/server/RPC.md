@@ -47,3 +47,22 @@ Call(int destination, string method, byte[] param, SSContext context, RPCCallbac
   }
 }
 ```
+
+
+## Data/UserName
+- User.json
+```json
+{
+  "UserName": "dwx",
+  "PassWord": "dwx666",
+  "Birthday": "2022-04-01 09:48:00"
+}
+```
+
+## Data/UserName/ID
+### UserID:100
+
+## Data/UserName/ID/RoleAttr.json
+## Data/UserName/ID/BB.json
+
+

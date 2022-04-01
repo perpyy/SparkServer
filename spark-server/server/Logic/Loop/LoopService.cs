@@ -5,10 +5,12 @@ using NetSprotoType;
 using Newtonsoft.Json;
 using SparkServer.Framework.Service;
 using SparkServer.Framework.Utility;
+using SparkServer.Logic.Db;
 using SparkServer.Logic.Entity;
 using SparkServer.Logic.Entity.Req;
 using SparkServer.Logic.Entity.Req.MsgType;
 using SparkServer.Logic.Handler.Player.Auth;
+using SparkServer.Network;
 
 namespace SparkServer.Logic.Loop
 {
@@ -17,9 +19,18 @@ namespace SparkServer.Logic.Loop
      */
     class LoopService: ServiceContext
     {
+        public Dictionary<long, TCPObject> OnLinePlayer;
         protected override void Init()
         {
             base.Init();
+            /*
+             * 初始化所有的全局数据
+             */
+
+            /*
+             * 从盘里读所有的数据
+             */
+            DbService.Load(this);
             RegisterServiceMethods(nameof(Dispatch), Dispatch);
         }
 
@@ -36,7 +47,8 @@ namespace SparkServer.Logic.Loop
             switch (op.Mt)
             {
                 case ReqMt.Player_Auth:
-                    AuthService.Handler(this, op.Op, m);
+                    AuthService.Handler(this, data, op.Op, m);
+                    // call db service check user
                     break;
                 default:
                     break;
@@ -44,6 +56,18 @@ namespace SparkServer.Logic.Loop
             /*Send2Client(data.tcpObjectId, data.connection, data.buffer);*/
         }
 
+
+
+
+
+        /*
+         * DbService读用户账号信息后会回调这里传到这个线程（Service）
+         */
+        public void LoadPlayerAccountCb(SSContext context, string method, byte[] param, RPCError error)
+        {
+            
+        }
+        
         private void Send2Client(long tcpObjectId, long connection, List<byte[]> msg)
         {
             Framework.MessageQueue.NetworkPacket message = new Framework.MessageQueue.NetworkPacket();
@@ -51,7 +75,6 @@ namespace SparkServer.Logic.Loop
             message.Type = SparkServer.Framework.MessageQueue.SocketMessageType.DATA;
             message.TcpObjectId = (int)tcpObjectId;
             message.ConnectionId = connection;
-            
             message.Buffers = msg;
             Framework.MessageQueue.NetworkPacketQueue.GetInstance().Push(message);
         }
