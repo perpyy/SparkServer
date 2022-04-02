@@ -35,31 +35,34 @@ namespace SparkServer.Logic.Db
          */
         public static void Load(LoopService loop)
         {
+            // 取配置文件路径
             var bootConf = SparkServerUtility.GetBootConf();
             var bootConfigText = ConfigHelper.LoadFromFile(bootConf);
             var configJson = JObject.Parse(bootConfigText);
+            // 检查是否有Db字段
             if (!configJson.ContainsKey("Db"))
             {
                 throw new Exception("Config file does not has Db field");
             }
-
             var db = configJson["Db"].ToString();
             if (!Directory.Exists(db)) throw new Exception("Db does not exits");
             var directoryInfo = new DirectoryInfo(db);
-            // 取DB底下所有目录，目录代码账号
+            // 取DB底下所有目录，目录代表账号
             var dirs = directoryInfo.GetDirectories();
+            // 读取目录里面的：用户数据
             foreach (var d in dirs)
             {
-                LoadPlayerInfo(d);
+                LoadPlayerInfo(loop, d);
             }
-
         }
 
-        private static void LoadPlayerInfo(DirectoryInfo player)
+        private static void LoadPlayerInfo(LoopService loop, DirectoryInfo player)
         {
-            var f = System.IO.Path.Combine(player.FullName, "user.json");
+            var f = Path.Combine(player.FullName, "user.json");
             var user = File.ReadAllText(f);
             var p = JsonConvert.DeserializeObject<EtPlayer>(user);
+            // 往全局数据Add
+            loop.GPlayers.Add(p.Username, p);
         }
         
         

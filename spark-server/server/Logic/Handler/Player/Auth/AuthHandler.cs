@@ -22,7 +22,7 @@ namespace SparkServer.Logic.Handler.Player.Auth
             {
                 case ReqOp.Player_Auth_Login:
                     var m = JsonConvert.DeserializeObject<ReqLogin>(msg);
-                    LoggerHelper.Debug(m_serviceAddress, $"{m.Data.UserName}, {m.Data.PassWord}");
+                    LoggerHelper.Debug(m_serviceAddress, $"{m.Data.Username}, {m.Data.Password}");
                     break;
                 case ReqOp.Player_Auth_Logout:
                     break;

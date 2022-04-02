@@ -5,8 +5,8 @@
         public MsgData Data;
         public struct MsgData
         {
-            public string UserName;
-            public string PassWord;
+            public string Username;
+            public string Password;
         }
     }
 }

@@ -7,6 +7,7 @@ using SparkServer.Framework.Service;
 using SparkServer.Framework.Utility;
 using SparkServer.Logic.Db;
 using SparkServer.Logic.Entity;
+using SparkServer.Logic.Entity.Player;
 using SparkServer.Logic.Entity.Req;
 using SparkServer.Logic.Entity.Req.MsgType;
 using SparkServer.Logic.Handler.Player.Auth;
@@ -19,6 +20,13 @@ namespace SparkServer.Logic.Loop
      */
     class LoopService: ServiceContext
     {
+        
+        /*
+         * 定义所有的全局数据
+         */
+
+        public Dictionary<string, EtPlayer> GPlayers;
+        
         public Dictionary<long, TCPObject> OnLinePlayer;
         protected override void Init()
         {
@@ -26,6 +34,8 @@ namespace SparkServer.Logic.Loop
             /*
              * 初始化所有的全局数据
              */
+
+            GPlayers = new Dictionary<string, EtPlayer>();
 
             /*
              * 从盘里读所有的数据
