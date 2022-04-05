@@ -19,6 +19,7 @@ namespace SparkServer.Logic.Handler.Player.Auth
         private static int m_serviceAddress = CustomId.GetInstance().GetId();
         private static int _id = LoggerHelper.AddService(m_serviceAddress, nameof(AuthService));
 
+        // loopService带有全局变量, dspData带有连接信息, op带有操作码, msg带的是客户端请求的真正数据
         public static void Handler(LoopService loop, DispatchData dspData, ReqOp op, string msg)
         {
             switch (op)
