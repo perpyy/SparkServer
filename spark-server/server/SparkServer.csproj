@@ -162,7 +162,8 @@
     <Compile Include="Logic\Entity\Res\MsgType\Ct.cs" />
     <Compile Include="Logic\Entity\Res\MsgType\Mt.cs" />
     <Compile Include="Logic\Entity\Res\MsgType\Op.cs" />
-    <Compile Include="Logic\Entity\Res\ReqMsgBase.cs" />
+    <Compile Include="Logic\Entity\Res\Proto\Player\AuthMsg.cs" />
+    <Compile Include="Logic\Entity\Res\ResMsgBase.cs" />
     <Compile Include="Logic\Handler\Player\Auth\AuthHandler.cs" />
     <Compile Include="Logic\Loop\LoopService.cs" />
     <Compile Include="Logic\Router.cs" />

@@ -5,11 +5,6 @@
      */
     public enum ResOp
     {
-        Player_Auth_Login, // 登录
-        Player_Auth_Logout, // 退出
-        Player_Auth_Select, // 选择角色
-        Player_Auth_Create, // 创建角色
-        Player_Auth_Delete, // 删除角色
-        Player_Auth_Reconnect, // 重连
+        Player_Auth_List, // 返回角色列表
     }
 }

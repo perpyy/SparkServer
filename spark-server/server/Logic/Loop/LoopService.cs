@@ -27,7 +27,7 @@ namespace SparkServer.Logic.Loop
 
         public Dictionary<string, EtPlayer> GPlayers;
         
-        public Dictionary<long, TCPObject> OnLinePlayer;
+        public Dictionary<long, string> OnLinePlayer;
         protected override void Init()
         {
             base.Init();
@@ -36,6 +36,7 @@ namespace SparkServer.Logic.Loop
              */
 
             GPlayers = new Dictionary<string, EtPlayer>();
+            OnLinePlayer = new Dictionary<long, string>();
 
             /*
              * 从盘里读所有的数据
@@ -78,7 +79,7 @@ namespace SparkServer.Logic.Loop
             
         }
         
-        private void Send2Client(long tcpObjectId, long connection, List<byte[]> msg)
+        public void Send2Client(long tcpObjectId, long connection, List<byte[]> msg)
         {
             Framework.MessageQueue.NetworkPacket message = new Framework.MessageQueue.NetworkPacket();
             
@@ -89,7 +90,13 @@ namespace SparkServer.Logic.Loop
             Framework.MessageQueue.NetworkPacketQueue.GetInstance().Push(message);
         }
 
-        private void Send2Client(long tcpObjectId, long connection, string msg)
+        public void Send2Client<T>(long tcpObjectId, long connection, T t)
+        {
+            var r = JsonConvert.SerializeObject(t);
+            Send2Client(tcpObjectId, connection, r);
+        }
+
+        public void Send2Client(long tcpObjectId, long connection, string msg)
         {
             var buffList = new List<byte[]>
             {
