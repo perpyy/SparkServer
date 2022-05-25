@@ -54,15 +54,23 @@ namespace SparkServer.Logic.Loop
             var m = Encoding.UTF8.GetString(Convert.FromBase64String(data.buffer));
             // 先提操作码
             var op = JsonConvert.DeserializeObject<ReqMsgBase>(m);
-
-            switch (op.Mt)
+            switch (op.Ct)
             {
-                case ReqMt.Player_Auth:
-                    AuthService.Handler(this, data, op.Op, m);
-                    // call db service check user
+                case ReqCt.Player: // 玩家
+                    switch (op.Mt)
+                    {
+                        case ReqMt.Player_Auth:
+                            AuthService.Handler(this, data, op.Op, m);
+                            // call db service check user
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case ReqCt.Gm: // GM
                     break;
                 default:
-                    break;
+                    throw new ArgumentOutOfRangeException();
             }
             /*Send2Client(data.tcpObjectId, data.connection, data.buffer);*/
         }
