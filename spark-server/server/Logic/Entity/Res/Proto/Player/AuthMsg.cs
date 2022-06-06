@@ -2,14 +2,9 @@
 
 namespace SparkServer.Logic.Entity.Res.Proto.Player
 {
-    public class AuthMsg: ResMsgBase
+    public class AuthMsg
     {
-        public MsgData Data;
-        public struct MsgData
-        {
-            public List<Player> Players;
-        }
-        
+        public List<Player> Players;
         public struct Player
         {
             

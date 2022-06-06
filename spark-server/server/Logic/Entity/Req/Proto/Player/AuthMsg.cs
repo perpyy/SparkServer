@@ -1,12 +1,9 @@
 ﻿namespace SparkServer.Logic.Entity.Req.Proto.Player
 {
-    public class ReqLogin: ReqMsgBase
+    // 登录请求
+    public class ReqLogin
     {
-        public MsgData Data;
-        public struct MsgData
-        {
-            public string Username;
-            public string Password;
-        }
+        public string Username;
+        public string Password;
     }
 }

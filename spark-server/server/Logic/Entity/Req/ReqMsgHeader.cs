@@ -2,7 +2,7 @@
 
 namespace SparkServer.Logic.Entity.Req
 {
-    public class ReqMsgBase
+    public class ReqMsgHeader
     {
         public ReqCt Ct;
         public ReqMt Mt;

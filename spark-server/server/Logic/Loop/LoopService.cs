@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using NetSprotoType;
 using Newtonsoft.Json;
@@ -10,6 +11,7 @@ using SparkServer.Logic.Entity;
 using SparkServer.Logic.Entity.Player;
 using SparkServer.Logic.Entity.Req;
 using SparkServer.Logic.Entity.Req.MsgType;
+using SparkServer.Logic.Entity.Res;
 using SparkServer.Logic.Handler.Player.Auth;
 using SparkServer.Network;
 
@@ -48,12 +50,17 @@ namespace SparkServer.Logic.Loop
         // 分发
         public void Dispatch(int source, int session, string method, byte[] param)
         {
+            var sw = new Stopwatch();
             DispatchData data = new DispatchData(param);
-            
+
             // 反序列为JSON,只反操作码部分，用于识别如何分发
             var m = Encoding.UTF8.GetString(Convert.FromBase64String(data.buffer));
             // 先提操作码
-            var op = JsonConvert.DeserializeObject<ReqMsgBase>(m);
+            sw.Start();
+
+            var op = JsonConvert.DeserializeObject<ReqMsgHeader>(m);
+            sw.Stop();
+            Console.WriteLine(sw.Elapsed.TotalMilliseconds);
             switch (op.Ct)
             {
                 case ReqCt.Player: // 玩家
@@ -86,8 +93,8 @@ namespace SparkServer.Logic.Loop
         {
             
         }
-        
-        public void Send2Client(long tcpObjectId, long connection, List<byte[]> msg)
+
+        private void Send2Client(long tcpObjectId, long connection, List<byte[]> msg)
         {
             Framework.MessageQueue.NetworkPacket message = new Framework.MessageQueue.NetworkPacket();
             
@@ -103,8 +110,18 @@ namespace SparkServer.Logic.Loop
             var r = JsonConvert.SerializeObject(t);
             Send2Client(tcpObjectId, connection, r);
         }
+        
+        public void Send2Client<T>(long tcpObjectId, long connection, ResMsgHeader res, T t)
+        {
+            var r = JsonConvert.SerializeObject(t);
+            var buffList = new List<byte[]>
+            {
+                Encoding.UTF8.GetBytes(r)
+            };
+            Send2Client(tcpObjectId, connection, buffList);
+        }
 
-        public void Send2Client(long tcpObjectId, long connection, string msg)
+        private void Send2Client(long tcpObjectId, long connection, string msg)
         {
             var buffList = new List<byte[]>
             {
