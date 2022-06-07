@@ -48,33 +48,51 @@ namespace SparkServer.Logic.Loop
         }
 
         // 分发
-        public void Dispatch(int source, int session, string method, byte[] param)
+        public unsafe void Dispatch(int source, int session, string method, byte[] param)
         {
             var sw = new Stopwatch();
             DispatchData data = new DispatchData(param);
-
-            // 反序列为JSON,只反操作码部分，用于识别如何分发
-            var m = Encoding.UTF8.GetString(Convert.FromBase64String(data.buffer));
-            // 先提操作码
             sw.Start();
-
-            var op = JsonConvert.DeserializeObject<ReqMsgHeader>(m);
+            // 提base64
+            var b64 = Convert.FromBase64String(data.buffer);
+            // 提前面三个short，用于识别如何分发
+            var ct = -1;
+            var mt = -1;
+            var op = -1;
+            fixed (byte* mp = b64)
+            {
+                var mpp = mp;
+                ct = *(short*) mpp;
+                *mpp = 0; // 作用为让json不处理这一字节的数据
+                *(mpp + 1) = 0; // 作用为让json不处理这一字节的数据
+                mpp += 2;
+                mt = *(short*) mpp;
+                *mpp = 0;
+                *(mpp + 1) = 0;
+                mpp += 2;
+                op = *(short*) mpp;
+                *mpp = 0;
+                *(mpp + 1) = 0;
+            }
+            
+            // 提字符串, 用于json反序列化, 3个short的控制不用管, 已设为0, json会忽略
+            var m = Encoding.UTF8.GetString(b64);
             sw.Stop();
             Console.WriteLine(sw.Elapsed.TotalMilliseconds);
-            switch (op.Ct)
+            switch ((ReqCt)ct)
             {
                 case ReqCt.Player: // 玩家
-                    switch (op.Mt)
+                    switch ((ReqMt)mt)
                     {
                         case ReqMt.Player_Auth:
-                            AuthService.Handler(this, data, op.Op, m);
+                            AuthService.Handler(this, data, (ReqOp)op, m);
                             // call db service check user
                             break;
                         default:
                             break;
                     }
                     break;
-                case ReqCt.Gm: // GM
+                case ReqCt.Gm:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -111,12 +129,38 @@ namespace SparkServer.Logic.Loop
             Send2Client(tcpObjectId, connection, r);
         }
         
-        public void Send2Client<T>(long tcpObjectId, long connection, ResMsgHeader res, T t)
+        public unsafe void Send2Client<T>(long tcpObjectId, long connection, ResMsgHeader res, T t)
         {
             var r = JsonConvert.SerializeObject(t);
+            var msg = Encoding.UTF8.GetBytes(r);
+            var buf = new byte[6 + msg.Length];
+            fixed (byte* b = buf, m = msg)
+            {
+                var bb = b;
+                var mm = m;
+                *bb = (byte)((short)res.Ct << 8 & 0xf0);
+                bb++;
+                *bb = (byte)((short)res.Ct >> 8 & 0x0f);
+                bb++;
+                *bb = (byte)((short)res.Mt << 8 & 0xf0);
+                bb++;
+                *bb = (byte)((short)res.Mt >> 8 & 0x0f);
+                bb++;
+                *bb = (byte)((short)res.Op << 8 & 0xf0);
+                bb++;
+                *bb = (byte)((short)res.Op >> 8 & 0x0f);
+                bb++;
+                while (mm - m < msg.Length)
+                {
+                    *bb = *mm;
+                    mm++;
+                }
+            }
+            
             var buffList = new List<byte[]>
             {
-                Encoding.UTF8.GetBytes(r)
+                /*Encoding.UTF8.GetBytes(r)*/
+                buf
             };
             Send2Client(tcpObjectId, connection, buffList);
         }

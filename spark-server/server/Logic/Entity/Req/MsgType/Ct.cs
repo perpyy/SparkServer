@@ -6,7 +6,7 @@
      */
     public enum ReqCt
     {
-        Player, // 玩家
+        Player = 0, // 玩家
         Gm // GM
     }
 }
