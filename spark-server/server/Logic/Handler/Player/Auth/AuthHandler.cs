@@ -43,7 +43,13 @@ namespace SparkServer.Logic.Handler.Player.Auth
                         };
                         AuthMsg resMsg = new AuthMsg()
                         {
-                            Players = new List<AuthMsg.Player>()
+                            Players = new List<EtPlayer>()
+                            {
+                                new EtPlayer()
+                                {
+                                    Username = "达文西",
+                                }
+                            }
                         };
                         loop.Send2Client<AuthMsg>(dspData.tcpObjectId, dspData.connection, header, resMsg);
                     }

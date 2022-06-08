@@ -154,6 +154,7 @@ namespace SparkServer.Logic.Loop
                 {
                     *bb = *mm;
                     mm++;
+                    bb++;
                 }
             }
             
